@@ -2,34 +2,58 @@ DC = docker-compose
 EXEC = docker exec -it
 LOGS = docker logs
 ENV = --env-file .env
-APP_FILE = docker-compose/app.yml
+FRONTEND_FILE = docker-compose/frontend.yml
+BACKEND_FILE = docker-compose/backend.yml
 STORAGES_FILE = docker-compose/storages.yml
-APP_CONTAINER = app-main
+BACKEND_APP_CONTAINER = backend-app
+FRONTEND_APP_CONTAINER = frontend-app
+
 
 # ------------------------------------------
 
 .PHONY: all
 all:
-	${DC} -f ${STORAGES_FILE} -f ${APP_FILE} ${ENV} up --build -d
+	${DC} -f ${STORAGES_FILE} -f ${BACKEND_FILE} -f ${FRONTEND_FILE} ${ENV} up --build -d
+
+.PHONY: all-down
+all-down:
+	${DC} -f ${STORAGES_FILE} -f ${BACKEND_FILE} -f ${FRONTEND_FILE} ${ENV} down
 
 # ------------------------------------------
 
-.PHONY: app
-app:
-	${DC} -f ${APP_FILE} ${ENV} up --build -d
+.PHONY: frontend
+frontend:
+	${DC} -f ${FRONTEND_FILE} ${ENV} up --build -d
 
-.PHONY: app-down
-app-down:
-	${DC} -f ${APP_FILE} down
+.PHONY: frontend-down
+frontend-down:
+	${DC} -f ${FRONTEND_FILE} down
 
-.PHONY: app-logs
-app-logs:
-	${LOGS} ${APP_CONTAINER} -f
+.PHONY: frontend-logs
+frontend-logs:
+	${LOGS} ${FRONTEND_APP_CONTAINER} -f
 
-.PHONY: app-shell
-app-shell:
-	${EXEC} ${APP_CONTAINER} bash
+# ------------------------------------------
 
+.PHONY: backend
+backend:
+	${DC} -f ${BACKEND_FILE} ${ENV} up --build -d
+
+.PHONY: backend-down
+backend-down:
+	${DC} -f ${BACKEND_FILE} down
+
+.PHONY: backend-logs
+backend-logs:
+	${LOGS} ${BACKEND_APP_CONTAINER} -f
+
+.PHONY: backend-shell
+backend-shell:
+	${EXEC} ${BACKEND_APP_CONTAINER} bash
+
+.PHONY: backend-makemigrations
+backend-makemigrations:
+	${EXEC} ${BACKEND_APP_CONTAINER} alembic revision --autogenerate
 # ------------------------------------------
 
 .PHONY: storages
