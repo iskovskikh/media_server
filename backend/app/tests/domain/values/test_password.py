@@ -8,20 +8,20 @@ from domain.values.user import Password
 
 def test_create_password_success(faker: Faker):
     text = faker.bothify(text='###???')
-    login = Password(text)
+    password = Password.create_password(text)
 
-    assert login.as_generic_type() == text
+    assert password.validate_password(text)
 
 
 def test_create_password_failed(faker: Faker):
     with pytest.raises(PasswordTooShortException):
-        Password('')
+        Password.create_password('')
     with pytest.raises(PasswordTooLongException):
-        Password(faker.lexify(text='?' * 10))
+        Password.create_password(faker.lexify(text='?' * 10))
 
 
 def test_create_password_format_failed(faker: Faker):
     with pytest.raises(PasswordWrongFormatException):
-        Password(faker.bothify(text='####'))
+        Password.create_password(faker.bothify(text='####'))
     with pytest.raises(PasswordWrongFormatException):
-        Password(faker.bothify(text='????'))
+        Password.create_password(faker.bothify(text='????'))

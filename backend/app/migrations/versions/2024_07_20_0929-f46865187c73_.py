@@ -24,7 +24,7 @@ def upgrade() -> None:
         sa.Column('oid', sa.String(), nullable=False),
         sa.Column('login', sa.String(), nullable=False),
         sa.Column('full_name', sa.String(), nullable=False),
-        sa.Column('password', sa.String(), nullable=False),
+        sa.Column('password', sa.LargeBinary(), nullable=False),
         sa.Column('company', sa.String(), nullable=False),
         sa.Column('position', sa.String(), nullable=False),
         sa.PrimaryKeyConstraint('oid')
@@ -37,7 +37,7 @@ def upgrade() -> None:
             dict(
                 login='user1',
                 full_name='Энтони Кидис',
-                password='user1',
+                password=b'$2b$12$TB3bZBuQf5m.MTOr3ZVsL.ZtRClrprBUac8c1ZCNTT7Qls26pdpo6',
                 company='RHCP',
                 position='вокалист',
                 oid='6391be0e-3245-4737-a64f-b8e89159f799'
@@ -45,7 +45,7 @@ def upgrade() -> None:
             dict(
                 login='user2',
                 full_name='Майкл Питер Бэлзари',
-                password='user2',
+                password=b'$2b$12$NaXCxrI2GGVApYuN54pf2u67OBYwz2uLiLaSskmj4WJoOtK0Kgr4y',
                 company='RHCP',
                 position='бас-гитарист',
                 oid='c6e07610-6e7d-4f94-ae68-a755a421803c'
@@ -53,7 +53,7 @@ def upgrade() -> None:
             dict(
                 login='user3',
                 full_name='Чэд Смит',
-                password='user3',
+                password=b'$2b$12$9v96SJsGGLe5dP3T/B4o6OBSMobS6.FcpBS0f3soNK9.ecNFJdty2',
                 company='RHCP',
                 position='ударник',
                 oid='02403500-a060-41cd-b2ba-f94bff2111e8'
@@ -61,7 +61,7 @@ def upgrade() -> None:
             dict(
                 login='user4',
                 full_name='Джон Фрушанте',
-                password='user4',
+                password=b'$2b$12$d2itasKu4dZbUq5CpE4C7OWv8mSBFkHRmCVNqQ7/L4HXrIRl/8usK',
                 company='RHCP',
                 position='гитарист',
                 oid='a8bccf81-d473-4d57-8c62-912593770474'

@@ -14,7 +14,7 @@
 Остальные доступные команды:
 
 `make all`
-
+    
 `make all-down`
 
 `make frontend`
