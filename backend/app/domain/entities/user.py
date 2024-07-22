@@ -24,12 +24,17 @@ class User(BaseEntity):
     ) -> 'User':
         new_user = cls(
             login=Login(login),
-            password=Password.hash_password(password),
+            password=Password.create_password(password),
             full_name=full_name,
             company=company,
             position=position,
         )
-        new_user.register_event(NewUserCreatedEvent(oid=new_user.oid, login=new_user.login.as_generic_type()))
+
+        new_user.register_event(NewUserCreatedEvent(
+            oid=new_user.oid,
+            login=new_user.login.as_generic_type()
+        ))
+
         return new_user
 
     def user_update(
@@ -41,7 +46,7 @@ class User(BaseEntity):
             position: str
     ) -> 'User':
         self.login = Login(login)
-        self.password = Password.hash_password(password)
+        self.password = Password.create_password(password)
         self.full_name = full_name
         self.company = company
         self.position = position

@@ -8,6 +8,6 @@ class UserModel(Base):
     oid: Mapped[str] = mapped_column(primary_key=True)
     login: Mapped[str]
     full_name: Mapped[str]
-    password: Mapped[str]
+    password: Mapped[bytes]
     company: Mapped[str]
     position: Mapped[str]
